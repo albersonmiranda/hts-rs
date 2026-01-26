@@ -1,7 +1,7 @@
 # hts-rs
 
 ![Status](https://img.shields.io/badge/status-experimental-orange)
-[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+[![License](https://img.shields.io/badge/license-GPLv3-blue)](LICENSE)
 
 **Hierarchical and Grouped Time Series in Rust**
 
