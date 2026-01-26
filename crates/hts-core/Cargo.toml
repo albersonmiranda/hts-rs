@@ -1,0 +1,17 @@
+[package]
+name = "hts-core"
+version = "0.1.0"
+edition = "2024"
+description = "Core data structures for hierarchical and grouped time series"
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+
+[dependencies]
+polars = { version = "0.46", features = ["lazy", "csv"] }
+faer = "0.22"
+thiserror = "2.0"
+chrono = "0.4"
+
+[lints]
+workspace = true
