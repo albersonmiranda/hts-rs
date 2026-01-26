@@ -1,0 +1,38 @@
+[workspace]
+members = [
+  "crates/*"
+]
+
+resolver = "2"
+
+[workspace.package]
+license = "MIT"
+authors = [
+  "Alberson Miranda <albersonmiranda@hotmail.com>",
+]
+repository = "https://github.com/albersonmiranda/hts-rs"
+version = "0.1.0"
+edition = "2024"
+keywords = [
+  "forecasting",
+  "hierarchical time series",
+  "reconciliation",
+]
+
+[workspace.dependencies]
+hts-core = { path = "crates/hts-core" }
+
+[workspace.lints.rust]
+missing_debug_implementations = "warn"
+missing_docs = "warn"
+rust_2018_idioms = "warn"
+non_local_definitions = { level = "allow", priority = 1 }
+unreachable_pub = "warn"
+
+[profile.release]
+codegen-units = 1
+lto = false
+
+[profile.profiling]
+inherits = "release"
+debug = true
