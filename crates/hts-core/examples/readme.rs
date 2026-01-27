@@ -20,6 +20,11 @@
 fn main() {
     use hts_core::{HierarchicalTimeSeries, HierarchySpec};
     use polars::prelude::*;
+    use std::env;
+
+    unsafe {
+        env::set_var("POLARS_FMT_MAX_ROWS", "20");
+    }
 
     // Data for the example (Brazilian GDP)
     // One can also load from a CSV file with `HierarchicalTimeSeries::from_csv()`
@@ -44,7 +49,9 @@ fn main() {
       ],
     )
     .unwrap();
-    
+
+    println!("Bottom-level data:\n{}", data);
+
     // Define the structure
     let spec = HierarchySpec::new(vec!["State".into(), "City".into()], vec!["Sector".into()]);
 
@@ -55,6 +62,13 @@ fn main() {
     let s = hts.summation_matrix();
     println!("S matrix shape: {:?}", s.shape());
 
+    // Print the summation matrix
+    println!("S matrix:\n{:?}", s);
+
     // Print summary
     println!("{}", hts.summary());
+
+    // Aggregate
+    let aggregated = hts.aggregate_all().unwrap();
+    println!("Aggregated Data:\n{}", aggregated);
 }
