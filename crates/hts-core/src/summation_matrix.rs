@@ -34,6 +34,7 @@ use faer::Mat;
 /// otherwise S[i,j] = 0.
 ///
 /// Uses `faer::Mat<f64>` for efficient dense matrix operations.
+
 #[derive(Debug, Clone)]
 pub struct SummationMatrix {
     /// The S matrix stored as dense f64.
@@ -172,7 +173,7 @@ mod tests {
     fn test_summation_matrix_shape() {
         let df = df! {
             "State" => ["A", "A", "B", "B"],
-            "Region" => ["A1", "A2", "B1", "B2"],
+            "Region" => ["AA", "AB", "BA", "BB"],
             "Value" => [1.0, 2.0, 3.0, 4.0],
         }
         .unwrap();
@@ -196,7 +197,7 @@ mod tests {
     fn test_summation_matrix_aggregate() {
         let df = df! {
             "State" => ["A", "A", "B", "B"],
-            "Region" => ["A1", "A2", "B1", "B2"],
+            "Region" => ["AA", "AB", "BA", "BB"],
             "Value" => [1.0, 2.0, 3.0, 4.0],
         }
         .unwrap();
@@ -219,8 +220,8 @@ mod tests {
     fn test_identity_at_bottom() {
         // The bottom portion of S should be an identity matrix
         let df = df! {
-            "Region" => ["A", "B", "C"],
-            "Value" => [1.0, 2.0, 3.0],
+            "Region" => ["AA", "AB", "BA", "BB"],
+            "Value" => [1.0, 2.0, 3.0, 4.0],
         }
         .unwrap();
 
