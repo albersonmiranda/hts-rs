@@ -1,17 +1,17 @@
 // Copyright (C) 2026 Alberson Miranda
-// 
+//
 // This file is part of hts-rs.
-// 
+//
 // hts-rs is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // hts-rs is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with hts-rs.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -46,6 +46,7 @@ use std::collections::{HashMap, HashSet};
 ///     groups: vec!["Purpose".into()],
 /// };
 /// ```
+
 #[derive(Debug, Clone, Default)]
 pub struct HierarchySpec {
     /// Columns with strict parent-child nesting, ordered from top to bottom.
@@ -239,6 +240,7 @@ impl HierarchyTree {
             .lazy()
             .select(all_cols.iter().map(|c| col(*c)).collect::<Vec<_>>())
             .unique(None, UniqueKeepStrategy::First)
+            .sort(all_cols.clone(), SortMultipleOptions::default())
             .collect()?;
 
         let n_bottom = bottom_df.height();
@@ -272,6 +274,13 @@ impl HierarchyTree {
                             .collect::<Vec<_>>(),
                     )
                     .unique(None, UniqueKeepStrategy::First)
+                    .sort(
+                        level_cols
+                            .iter()
+                            .map(|name| name.as_str())
+                            .collect::<Vec<_>>(),
+                        SortMultipleOptions::default(),
+                    )
                     .collect()?;
 
                 for row_idx in 0..unique_df.height() {
