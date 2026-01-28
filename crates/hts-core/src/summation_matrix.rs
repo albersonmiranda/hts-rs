@@ -1,17 +1,17 @@
 // Copyright (C) 2026 Alberson Miranda
-// 
+//
 // This file is part of hts-rs.
-// 
+//
 // hts-rs is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // hts-rs is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with hts-rs.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -219,9 +219,10 @@ mod tests {
     #[test]
     fn test_identity_at_bottom() {
         // The bottom portion of S should be an identity matrix
+        // We use unsorted input to verify that the implementation correctly sorts it
         let df = df! {
-            "Region" => ["AA", "AB", "BA", "BB"],
-            "Value" => [1.0, 2.0, 3.0, 4.0],
+            "Region" => ["AB", "AA", "BB", "BA"],
+            "Value" => [2.0, 1.0, 4.0, 3.0],
         }
         .unwrap();
 
@@ -229,13 +230,36 @@ mod tests {
         let tree = HierarchyTree::from_dataframe(&df, &spec).unwrap();
         let s = SummationMatrix::from_hierarchy(&tree);
 
-        let _mat = s.to_vec();
-
         // Check that bottom rows form identity-like structure
         // (each bottom series only aggregates from itself)
-        for node in tree.nodes() {
-            if node.is_bottom() {
-                assert_eq!(node.aggregates_from.len(), 1);
+
+        // n = 5 (Total + 4 regions)
+        // m = 4
+        // S is 5x4.
+        // Top row is Total (1,1,1,1).
+        // Bottom 4 rows are Regions.
+        // They should be sorted: AA, AB, BA, BB
+        // Columns should be sorted: AA, AB, BA, BB
+
+        // Inspect matrix
+        let mat = s.to_vec();
+        println!("Matrix: {:?}", mat);
+
+        // Bottom block (last 4 rows)
+        let n = s.n_series();
+        let m = s.n_bottom();
+        assert_eq!(n, 5);
+        assert_eq!(m, 4);
+
+        for i in 0..m {
+            for j in 0..m {
+                let row_idx = n - m + i;
+                let expected = if i == j { 1.0 } else { 0.0 };
+                assert_eq!(
+                    mat[row_idx][j], expected,
+                    "Mismatch at ({}, {})",
+                    row_idx, j
+                );
             }
         }
     }
