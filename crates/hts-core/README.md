@@ -70,7 +70,7 @@ let data = df!(
   ],
 )
 .unwrap();
-   
+
 // Define the structure
 let spec = HierarchySpec::new(vec!["State".into(), "City".into()], vec!["Sector".into()]);
 
