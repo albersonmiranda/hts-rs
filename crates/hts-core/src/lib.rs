@@ -207,4 +207,5 @@ pub use error::{HtsError, Result};
 pub use hierarchy::{HierarchySpec, HierarchyTree, Node};
 pub use hts::{HierarchicalTimeSeries, HtsSummary};
 pub use period::Period;
+pub use polars;
 pub use summation_matrix::SummationMatrix;
