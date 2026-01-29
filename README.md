@@ -20,7 +20,7 @@
 
 ```toml
 [dependencies]
-hts-rs = { git = "https://github.com/albersonmiranda/hts-rs" }
+hts-core = { git = "https://github.com/albersonmiranda/hts-rs" }
 ```
 
 ## Contributing
