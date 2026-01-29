@@ -38,13 +38,13 @@ use faer::Mat;
 #[derive(Debug, Clone)]
 pub struct SummationMatrix {
     /// The S matrix stored as dense f64.
-    matrix: Mat<f64>,
+    pub matrix: Mat<f64>,
 
     /// Labels for all n series (rows).
-    row_labels: Vec<String>,
+    pub row_labels: Vec<String>,
 
     /// Labels for m bottom-level series (columns).
-    col_labels: Vec<String>,
+    pub col_labels: Vec<String>,
 }
 
 impl SummationMatrix {
